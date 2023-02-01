@@ -13,7 +13,7 @@ public class EmployeeExplorer {
     }
 
     static double getMaximumSalary(Employee[] employees) {
-        double maxSalary = 0;
+        double maxSalary = employees[0].getSalary();
         for (Employee employee : employees) {
             if (employee.getSalary() > maxSalary) {
                 maxSalary = employee.getSalary();
@@ -23,7 +23,7 @@ public class EmployeeExplorer {
     }
 
     static double getMinimumSalary(Employee[] employees) {
-        double minSalary = Integer.MAX_VALUE;
+        double minSalary = employees[0].getSalary();
         for (Employee employee : employees) {
             if (employee.getSalary() < minSalary) {
                 minSalary = employee.getSalary();

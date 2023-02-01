@@ -4,33 +4,41 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Main {
+    private static final String FILE_NAME = "employees.csv";
 
     public static void main(String[] args) {
-        final String fileName = "employees.csv";
+
         Employee[] employees;
 
-        File file = new File(fileName);
+        File file = new File(FILE_NAME);
 
         try {
             file.createNewFile();
-            employees = EmployeeDataReader.readFile(fileName);
+            employees = EmployeeDataReader.readFile(FILE_NAME);
             DataPrinter.printData(employees);
         } catch (IOException e) {
             throw new RuntimeException("Nie udało się wczytać pliku");
+        }
+
+        if (employees.length == 0) {
+            System.out.println("Brak pracowników");
+            return;
         }
 
         if (file.exists()) {
             File stats = new File("stats.txt");
             try {
                 stats.createNewFile();
-                FileWriter fileWriter = new FileWriter(stats, false);
+            } catch (IOException e) {
+                throw new RuntimeException(" Nie udało się utworzyć pliku");
+            }
+            try (FileWriter fileWriter = new FileWriter(stats, false);) {
                 fileWriter.write("\nŚrednia wypłata: " + EmployeeExplorer.countAverageSalary(employees));
                 fileWriter.write("\nMinimalna wypłata: " + EmployeeExplorer.getMinimumSalary(employees));
                 fileWriter.write("\nMaksymalna wypłata: " + EmployeeExplorer.getMaximumSalary(employees));
                 fileWriter.write("\nLiczba pracowników IT: " + EmployeeExplorer.numberOfEmployeesInDepartment(employees, "IT"));
                 fileWriter.write("\nLiczba pracowników Support: " + EmployeeExplorer.numberOfEmployeesInDepartment(employees, "Support"));
                 fileWriter.write("\nLiczba pracowników Management: " + EmployeeExplorer.numberOfEmployeesInDepartment(employees, "Management"));
-                fileWriter.close();
             } catch (IOException e) {
                 throw new RuntimeException("Nie udało się wczytać pliku");
             }
