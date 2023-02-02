@@ -32,15 +32,10 @@ public class Main {
             } catch (IOException e) {
                 throw new RuntimeException(" Nie udało się utworzyć pliku");
             }
-            try (FileWriter fileWriter = new FileWriter(stats, false);) {
-                fileWriter.write("\nŚrednia wypłata: " + EmployeeExplorer.countAverageSalary(employees));
-                fileWriter.write("\nMinimalna wypłata: " + EmployeeExplorer.getMinimumSalary(employees));
-                fileWriter.write("\nMaksymalna wypłata: " + EmployeeExplorer.getMaximumSalary(employees));
-                fileWriter.write("\nLiczba pracowników IT: " + EmployeeExplorer.numberOfEmployeesInDepartment(employees, "IT"));
-                fileWriter.write("\nLiczba pracowników Support: " + EmployeeExplorer.numberOfEmployeesInDepartment(employees, "Support"));
-                fileWriter.write("\nLiczba pracowników Management: " + EmployeeExplorer.numberOfEmployeesInDepartment(employees, "Management"));
+            try {
+                EmployeeDataWriter.writeDataStatistics(stats, employees);
             } catch (IOException e) {
-                throw new RuntimeException("Nie udało się wczytać pliku");
+                throw new RuntimeException("Nie udało się zapisać danych");
             }
         }
     }
